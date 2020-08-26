@@ -47,6 +47,32 @@ class AdoptionRoute extends Component {
         .catch(e => console.log('error:',e));
     };
 
+    handleAdoptMeClick = (e) => {
+        e.preventDefault();
+        let adoptChoice = e.target.value
+        if (adoptChoice === 'cat') {
+            this.setState({clientSelection: this.state.currentCat})
+        }
+        else if (adoptChoice === 'dog') {
+            this.setState({clientSelection: this.state.currentDog})
+        }
+
+        fetch(`${config.API_ENDPOINT}/pets`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ petType: adoptChoice })
+        })
+        .catch(e => console.log('error:', e));
+
+        fetch(`${config.API_ENDPOINT}/people`, {
+            method: 'DELETE'
+            })
+        .then(()=> this.setState({clientTurnToSelect: false}))
+        .catch(e => console.log('error:', e));
+    }
+
     getLineQueue = () => {
         console.log('getLineQ')
         fetch(`${config.API_ENDPOINT}/people`)
@@ -78,6 +104,30 @@ class AdoptionRoute extends Component {
             this.setState({
                 currentCat: petData[0],
                 currentDog: petData[1]
+            });
+            }
+        )
+        .catch(e => console.log('error:',e));
+    };
+
+    getCurrentCatDog = () => {
+        fetch(`${config.API_ENDPOINT}/api/cat`)
+        .then(res => res.json())
+        .then(catData => {
+            // set position of client needed?
+            this.setState({
+                currentCat: catData,
+            });
+            }
+        )
+        .catch(e => console.log('error:',e));
+
+        fetch(`${config.API_ENDPOINT}/api/dog`)
+        .then(res => res.json())
+        .then(dogData => {
+            // set position of client needed?
+            this.setState({
+                currentDog: dogData,
             });
             }
         )
@@ -126,7 +176,15 @@ class AdoptionRoute extends Component {
 
     addClient = () => {
         //add a client once every 5 seconds
-        //while lineQueue.length !== 5
+        //if (lineQueue.length < 5) {
+            // let newRandomClient = this.state.randomClients
+            // let currentLineQueue = this.state.lineQueue
+            // currentLineQueue.push(newRandomClient.pop())
+            // this.setState({
+            //     lineQueue: currentLineQueue,
+            //     randomClients: newRandomClient})
+        }
+        
         //New Client => randomClients.pop()
     }
 
@@ -150,8 +208,10 @@ class AdoptionRoute extends Component {
         console.log('clientInLine', this.state.clientInLine)
         console.log('clinetName', this.state.clientName)
         if (this.state.lineQueue.length <= 1) {
-            console.log('into the if')
-            clearInterval(this.adoptionTimer)
+            console.log('into the if');
+            clearInterval(this.adoptionTimer);
+            this.getCurrentCatDog();
+            () => this.newClientTimer = setInterval(this.addClient, 5000)
         }
         // if (this.state.lineQueue.length === 0 || this.state.currentCat === null || this.state.currentDog) {
         //     this.stopAdoptions()
@@ -185,7 +245,7 @@ class AdoptionRoute extends Component {
                         <p>Gender: {this.state.currentCat.gender}</p>
                         <p>Age: {this.state.currentCat.age}</p>
                         <p>My Story: {this.state.currentCat.story}</p>
-                        {this.state.clientTurnToSelect && <button type='button'>Adopt Me!</button>}
+                        {this.state.clientTurnToSelect? <button type='button' value='cat' onClick={this.handleAdoptMeClick}>Adopt Me!</button> : null}
                     </div>
                     <div className="dog-info">
                     <img src={this.state.currentDog.imageURL} alt={this.state.currentDog.description}></ img>
@@ -195,7 +255,7 @@ class AdoptionRoute extends Component {
                         <p>Gender: {this.state.currentDog.gender}</p>
                         <p>Age: {this.state.currentDog.age}</p>
                         <p>My Story: {this.state.currentDog.story}</p>
-                        {this.state.clientTurnToSelect && <button type='button'>Adopt Me!</button>}
+                        {this.state.clientTurnToSelect? <button type='button' value='dog' onClick={this.handleAdoptMeClick}>Adopt Me!</button> : null}
                     </div>
                 </div>
             </section>
