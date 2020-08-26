@@ -9,7 +9,7 @@ class AdoptionRoute extends Component {
         this.state = {
             clientName: '',
             clientInLine: false,
-            clientTurnToSelect: null,
+            clientTurnToSelect: false,
             clientSelection:{},
             lineQueue:[],
             currentCat:{},
@@ -43,7 +43,7 @@ class AdoptionRoute extends Component {
             this.getNextCatDog();
         })
         .then(this.setState({clientInLine: true}))
-        .then(() => this.adoptionTimer = setInterval(this.adopt, 1000))
+        // .then(() => this.adoptionTimer = setInterval(this.adopt, 6000))
         .catch(e => console.log('error:',e));
     };
 
@@ -53,7 +53,8 @@ class AdoptionRoute extends Component {
         .then(res => res.json())
         .then(lineData => {
         // set position of client needed?
-            this.setState({
+            console.log('lineData on line 56', lineData)
+            return this.setState({
                 lineQueue: lineData
             })
         })
@@ -88,6 +89,13 @@ class AdoptionRoute extends Component {
         console.log('adopting');
         // if (this.lineQueue[0] == this.state.clientName)
         if (this.state.clientInLine) {
+            console.log('this.state.lineQueue[0] on line 82', this.state.lineQueue[0])
+            if (this.state.clientName === this.state.lineQueue[1]) {
+                console.log('got into the if on line 93 so cTTS is true now?')
+                this.setState({
+                    clientTurnToSelect: true
+                })
+            }
             if (!this.state.clientTurnToSelect) {
                 let petChoice = Math.floor(Math.random() * 2);
                 if (petChoice === 0) {
@@ -103,17 +111,22 @@ class AdoptionRoute extends Component {
                         'content-type': 'application/json',
                     },
                     body: JSON.stringify({ petType: petChoice })
-                })
-                    .catch(e => console.log('error:', e));
+                }).then(res => (!res.ok)
+                    ? res.json().then(e => Promise.reject(e))
+                    : fetch(`${config.API_ENDPOINT}/people`, {
+                        method: 'DELETE'
+                    })
+                )
+                .catch(e => console.log('error:', e));
             }
             //timer start for adding clients
             //have them select pet
             // then delete them
             // then delete pet
-            fetch(`${config.API_ENDPOINT}/people`, {
-                method: 'DELETE'
-            })
-                .catch(e => console.log('error:', e));
+            // fetch(`${config.API_ENDPOINT}/people`, {
+            //     method: 'DELETE'
+            // })
+            //     .catch(e => console.log('error:', e));
         }
         this.getLineQueue();
         this.getNextCatDog();
@@ -149,6 +162,7 @@ class AdoptionRoute extends Component {
         console.log('clientTurnToSelect', this.state.clientTurnToSelect)
         console.log('clientInLine', this.state.clientInLine)
         console.log('clinetName', this.state.clientName)
+        console.log('line 158 lineQueue', this.state.lineQueue)
         if (this.state.lineQueue.length <= 1) {
             console.log('into the if')
             clearInterval(this.adoptionTimer)
@@ -166,38 +180,42 @@ class AdoptionRoute extends Component {
         return(
             <section className="adoption">
                 <h1>Petful</h1>
-                <form onSubmit={this.handleNameSubmit}>
+                <form className='add-name-form' onSubmit={this.handleNameSubmit}>
                     <label htmlFor="client-name">Enter Your Name</label>    
                     <input type="text" onChange={this.setName} id="client-name"className="client-name-field"></input>
                     <button type="submit" className="add-name-button small-btn">Jump In Line</button>
                 </form>
-                <div className="client-line">
+                {this.state.clientInLine ?
+                    <>
+                    <div className="client-line">
                     <ol>
-                        {this.state.clientInLine ? this.renderLine(): null}
+                        {this.renderLine()}
                     </ol>
-                </div>
-                <div className="pet-selection">
-                    <div className="cat-info">
-                        <img src={this.state.currentCat.imageURL} alt={this.state.currentCat.description}></ img>
-                        <p>My Name: {this.state.currentCat.name}</p>
-                        <p>Description: {this.state.currentCat.description}</p>
-                        <p>Breed: {this.state.currentCat.breed}</p>
-                        <p>Gender: {this.state.currentCat.gender}</p>
-                        <p>Age: {this.state.currentCat.age}</p>
-                        <p>My Story: {this.state.currentCat.story}</p>
-                        {this.state.clientTurnToSelect && <button type='button'>Adopt Me!</button>}
                     </div>
-                    <div className="dog-info">
-                    <img src={this.state.currentDog.imageURL} alt={this.state.currentDog.description}></ img>
-                        <p>My Name: {this.state.currentDog.name}</p>
-                        <p>Description: {this.state.currentDog.description}</p>
-                        <p>Breed: {this.state.currentDog.breed}</p>
-                        <p>Gender: {this.state.currentDog.gender}</p>
-                        <p>Age: {this.state.currentDog.age}</p>
-                        <p>My Story: {this.state.currentDog.story}</p>
-                        {this.state.clientTurnToSelect && <button type='button'>Adopt Me!</button>}
+                    <div className="pet-selection">
+                        <div className="cat-info container">
+                            {this.state.clientTurnToSelect && <button className='adopt-button' type='button'>Adopt {this.state.currentCat.name}!</button>}
+                            <img className='animal-image' src={this.state.currentCat.imageURL} alt={this.state.currentCat.description}></ img>
+                            <p className='pet-info'>My Name: {this.state.currentCat.name}</p>
+                            <p className='pet-info'>Description: {this.state.currentCat.description}</p>
+                            <p className='pet-info'>Breed: {this.state.currentCat.breed}</p>
+                            <p className='pet-info'>Gender: {this.state.currentCat.gender}</p>
+                            <p className='pet-info'>Age: {this.state.currentCat.age}</p>
+                            <p className='pet-info'>My Story: {this.state.currentCat.story}</p>
+                        </div>
+                        <div className="dog-info container">
+                            {this.state.clientTurnToSelect && <button className='adopt-button' type='button'>Adopt {this.state.currentDog.name}!</button>}
+                            <img className='animal-image' src={this.state.currentDog.imageURL} alt={this.state.currentDog.description}></ img>
+                            <p className='pet-info'>My Name: {this.state.currentDog.name}</p>
+                            <p className='pet-info'>Description: {this.state.currentDog.description}</p>
+                            <p className='pet-info'>Breed: {this.state.currentDog.breed}</p>
+                            <p className='pet-info'>Gender: {this.state.currentDog.gender}</p>
+                            <p className='pet-info'>Age: {this.state.currentDog.age}</p>
+                            <p className='pet-info'>My Story: {this.state.currentDog.story}</p>
+                        </div>
                     </div>
-                </div>
+                </>
+            : null}
             </section>
         )
     }
