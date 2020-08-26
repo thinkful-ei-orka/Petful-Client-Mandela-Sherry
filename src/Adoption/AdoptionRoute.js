@@ -204,13 +204,14 @@ class AdoptionRoute extends Component {
         console.log('clientInLine', this.state.clientInLine)
         console.log('clinetName', this.state.clientName)
         console.log('line 198 lineQueue', this.state.lineQueue)
+
         if (this.state.lineQueue.length === 2 && this.state.addingClients === false) {
             this.setState({ addingClients: true })
             console.log('into the if')
             this.clientTimer = setInterval(this.addClient, 6000)
         }
 
-        if (this.state.lineQueue.length === 5 && (this.state.adopted.length > 0 || !this.state.clientInLine)) { 
+        if (this.state.lineQueue.length >= 5 && (this.state.adopted.length > 0 || !this.state.clientInLine)) { 
             console.log('into that client adding time thingy')
             clearInterval(this.clientTimer)
         }
@@ -239,7 +240,7 @@ class AdoptionRoute extends Component {
                         </ol>
                     </div>
                 }
-                {this.state.adopted.length > 0 && <p>Congrats! You adopted {this.state.adopted}!</p>}
+                {this.state.adopted.length > 0 && <p className='adopted'>Congrats! You adopted {this.state.adopted}!</p>}
                 {this.state.clientInLine  ?
                     <>
                     <div className="pet-selection">

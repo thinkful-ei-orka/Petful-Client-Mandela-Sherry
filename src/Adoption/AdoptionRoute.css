@@ -57,6 +57,10 @@ h1 {
   margin-bottom: 5px;
 }
 
+.adopted {
+  text-align: center;
+}
+
 @media screen and (min-width: 1000px) {
   /* img to the left, info to the right */
 
