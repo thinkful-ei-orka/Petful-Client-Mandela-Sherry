@@ -1,5 +1,13 @@
 # Petful Client
 
+## Adopt A Furry Freind
+
+Petful is an online adoption agency for cat and dog like creatures. We believe in quality over quantity and thus choose offer a very limited amount of 'cats' and 'dogs' to our clients.
+
+## How Our Adoption Process Works
+
+Once you've added your name to our list, we will show you the cat and dog currently up for adoption as well as the other clients in line. Once it is your turn, you are given a short time to select a cat or dog to adopt. Choose quickly! If you miss your turn you will need to try again at a later time.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -28,6 +36,14 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm deploy`
+
+Deploys app to vercel.
+
+Before this, predeploy runs the build, which gets tested before it is built.
+
+Running deploy will test, build, and deploy the app to vercel.
 
 ### `npm run eject`
 
