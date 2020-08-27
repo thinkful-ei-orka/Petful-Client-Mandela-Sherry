@@ -1,4 +1,4 @@
 export default {
-    API_ENDPOINT: 'http://localhost:8000'
-    // API_ENDPOIONT: 'deployed server url here'
+    API_ENDPOINT: 'http://localhost:8000',
+    REACT_APP_API_BASE: process.env.REACT_APP_API_ENDPOINT
 }
