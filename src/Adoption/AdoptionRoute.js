@@ -215,7 +215,6 @@ class AdoptionRoute extends Component {
             clearInterval(this.clientTimer)
         }
         console.log('addingClients', this.state.addingClients)
-        console.log('opposite of above!', !this.state.addingClients)
         console.log('this.state.adopted', this.state.adopted)
         
         return(
