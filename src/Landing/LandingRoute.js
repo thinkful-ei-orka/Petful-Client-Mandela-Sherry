@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+import './LandingRoute.css';
+
 function LandingRoute() {
     return ( 
       <section className="landing">
         <h1>Petful</h1>
-        <img></img>
-        {/* ^^^ choose and download image to include for page */}
         <Link to="/adoption"><button type="button" className="medium-btn">Adopt A Pet</button></Link>
         {/* Button to start adoption here */}
         <h2>Adopt A Furry Freind</h2>

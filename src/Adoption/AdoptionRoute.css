@@ -1,0 +1,97 @@
+.adoption {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+  color: #010203;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.add-name-form {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  /* justify-content: center;
+  align-items: center; */
+  padding: 15px;
+  margin: 10px;
+}
+
+.add-name-form > label {
+  margin-right: 10px;
+}
+
+.add-name-form > input {
+  width: 70%;
+}
+
+.add-name-button {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.pet-selection {
+  margin: 10px;
+}
+
+.animal-image {
+  max-width: 90%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.adopt-button {
+  font-size: 1.3em;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.adopted {
+  text-align: center;
+}
+
+@media screen and (min-width: 1000px) {
+  /* img to the left, info to the right */
+
+  /* .pet-selection {
+    display: flexbox;
+    flex-direction: row;
+    justify-content: space-between;
+  } */
+
+  .container {
+    display: table;
+    width: 100%;
+    height: 500px;
+  }
+
+  .pet-info {
+    position: relative;
+    left: 50%;
+    width: 50%;
+    padding: 5px;
+  }
+
+  .animal-image {
+    position: absolute;
+    max-width: 50%;
+    right: 50%;
+  }
+
+  .add-name-button {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+}
