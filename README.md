@@ -2,13 +2,15 @@
 
 ## Adopt A Furry Freind
 
-Petful is an online adoption agency for cat and dog like creatures. We believe in quality over quantity and thus choose offer a very limited amount of 'cats' and 'dogs' to our clients.
+Petful is an online adoption agency for cat and dog like creatures. We believe in quality over quantity and thus choose to offer a very limited amount of 'cats' and 'dogs' to our clients. Once in line, you can see which pets are up for adoption. When it's your turn, hurry because you'll have a limited amount of time to select your new 'furry friend!'
 
-## How Our Adoption Process Works
+## Team Members
+Mandela Jones<br />
+Sherry McCarty
 
-Once you've added your name to our list, we will show you the cat and dog currently up for adoption as well as the other clients in line. Once it is your turn, you are given a short time to select a cat or dog to adopt. Choose quickly! If you miss your turn you will need to try again at a later time.
+## Tech Stack
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Javascript, React, CSS3, HTML5, NodeJS, ExpressJS, PostgreSQL
 
 ## Available Scripts
 
@@ -41,9 +43,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Deploys app to vercel.
 
-Before this, predeploy runs the build, which gets tested before it is built.
-
-Running deploy will test, build, and deploy the app to vercel.
+Can also run vercel followed by vercel --prod to deploy.
 
 ### `npm run eject`
 
@@ -54,33 +54,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
