@@ -22,11 +22,16 @@ class AdoptionRoute extends Component {
     componentDidMount() {
         //get all in line
         this.getLineQueue();
+        this.setState({ addingCients: false })
     }
 
     handleNameSubmit = (e) => {
         e.preventDefault();
-        this.adoptionTimer = setInterval(this.adopt, 6000)
+        this.setState({ 
+            adopted: '',
+            addingClients: false 
+        })
+        this.adoptionTimer = setInterval(this.adopt, 5000)
         let newClientName = this.state.clientName;
         //take name and send to api
         fetch(`${config.API_ENDPOINT}/people`, {
@@ -43,7 +48,6 @@ class AdoptionRoute extends Component {
             this.getNextCatDog();
         })
         .then(this.setState({clientInLine: true}))
-        // .then(() => this.adoptionTimer = setInterval(this.adopt, 6000))
         .catch(e => console.log('error:',e));
     };
 
@@ -52,8 +56,6 @@ class AdoptionRoute extends Component {
         fetch(`${config.API_ENDPOINT}/people`)
         .then(res => res.json())
         .then(lineData => {
-        // set position of client needed?
-            console.log('lineData on line 56', lineData)
             return this.setState({
                 lineQueue: lineData
             })
@@ -75,7 +77,6 @@ class AdoptionRoute extends Component {
         fetch(`${config.API_ENDPOINT}/pets`)
         .then(res => res.json())
         .then(petData => {
-            // set position of client needed?
             this.setState({
                 currentCat: petData[0],
                 currentDog: petData[1]
@@ -87,16 +88,21 @@ class AdoptionRoute extends Component {
 
     adopt = () => {
         console.log('adopting');
-        // if (this.lineQueue[0] == this.state.clientName)
         if (this.state.clientInLine) {
             console.log('this.state.lineQueue[0] on line 82', this.state.lineQueue[0])
-            if (this.state.clientName === this.state.lineQueue[1]) {
-                console.log('got into the if on line 93 so cTTS is true now?')
-                this.setState({
-                    clientTurnToSelect: true
+            let clientName = this.state.clientName
+            let notInList = this.state.lineQueue.filter(name => name === clientName)
+            console.log('notin list value', notInList)
+            if (notInList.length === 0) {
+                console.log('notInList')
+                clearInterval(this.adoptionTimer)
+                return this.setState({
+                    clientInLine: false,
+                    clientTurnToSelect: false,
                 })
             }
             if (!this.state.clientTurnToSelect) {
+                console.log('into the client not in line if line 105')
                 let petChoice = Math.floor(Math.random() * 2);
                 if (petChoice === 0) {
                     petChoice = 'cat'
@@ -116,17 +122,11 @@ class AdoptionRoute extends Component {
                     : fetch(`${config.API_ENDPOINT}/people`, {
                         method: 'DELETE'
                     })
-                )
+                ).then(() => {
+                    
+                })
                 .catch(e => console.log('error:', e));
             }
-            //timer start for adding clients
-            //have them select pet
-            // then delete them
-            // then delete pet
-            // fetch(`${config.API_ENDPOINT}/people`, {
-            //     method: 'DELETE'
-            // })
-            //     .catch(e => console.log('error:', e));
         }
         this.getLineQueue();
         this.getNextCatDog();
@@ -164,12 +164,7 @@ class AdoptionRoute extends Component {
                 'content-type': 'application/json',
             },
             body: JSON.stringify({ petType: petChoice })
-        }).then(res => (!res.ok)
-            ? res.json().then(e => Promise.reject(e))
-            : fetch(`${config.API_ENDPOINT}/people`, {
-                method: 'DELETE'
-            })
-        ).then(() => {
+        }).then(() => {
             this.setState({
                 clientName: '',
                 clientTurnToSelect: false,
@@ -199,6 +194,10 @@ class AdoptionRoute extends Component {
         })
     };
 
+    setAddingClients = () => {
+        this.setState({ addingClients: !this.state.addingClients })
+    }
+
     render() {
         console.log('clientTurnToSelect', this.state.clientTurnToSelect)
         console.log('clientInLine', this.state.clientInLine)
@@ -206,24 +205,18 @@ class AdoptionRoute extends Component {
         console.log('line 198 lineQueue', this.state.lineQueue)
 
         if (this.state.lineQueue.length === 2 && this.state.addingClients === false) {
-            this.setState({ addingClients: true })
             console.log('into the if')
-            this.clientTimer = setInterval(this.addClient, 6000)
+            this.setAddingClients();
+            this.clientTimer = setInterval(this.addClient, 5000)
         }
 
         if (this.state.lineQueue.length >= 5 && (this.state.adopted.length > 0 || !this.state.clientInLine)) { 
             console.log('into that client adding time thingy')
             clearInterval(this.clientTimer)
         }
-        // if (this.state.lineQueue.length === 0 || this.state.currentCat === null || this.state.currentDog) {
-        //     this.stopAdoptions()
-        // }
-
-        // if (this.state.clientTurnToSelect === true) {
-        //     console.log('into the else if statement')
-        //     // this.stopAdoptions();
-        //     clearInterval(this.adopt);
-        // }
+        console.log('addingClients', this.state.addingClients)
+        console.log('opposite of above!', !this.state.addingClients)
+        console.log('this.state.adopted', this.state.adopted)
         
         return(
             <section className="adoption">
