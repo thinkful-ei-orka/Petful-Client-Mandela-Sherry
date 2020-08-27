@@ -34,7 +34,7 @@ class AdoptionRoute extends Component {
         this.adoptionTimer = setInterval(this.adopt, 5000)
         let newClientName = this.state.clientName;
         //take name and send to api
-        fetch(`${config.API_ENDPOINT}/people`, {
+        fetch(`${config.REACT_APP_API_ENDPOINT}/people`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -51,9 +51,34 @@ class AdoptionRoute extends Component {
         .catch(e => console.log('error:',e));
     };
 
+    handleAdoptMeClick = (e) => {
+        e.preventDefault();
+        let adoptChoice = e.target.value
+        if (adoptChoice === 'cat') {
+            this.setState({clientSelection: this.state.currentCat})
+        }
+        else if (adoptChoice === 'dog') {
+            this.setState({clientSelection: this.state.currentDog})
+        }
+
+        fetch(`${config.REACT_APP_API_ENDPOINT}/pets`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ petType: adoptChoice })
+        })
+        .catch(e => console.log('error:', e));
+
+        fetch(`${config.REACT_APP_API_ENDPOINT}/people`, {
+            method: 'DELETE'
+            })
+        .then(()=> this.setState({clientTurnToSelect: false}))
+        .catch(e => console.log('error:', e));
+    }
+
     getLineQueue = () => {
-        console.log('getLineQ')
-        fetch(`${config.API_ENDPOINT}/people`)
+        fetch(`${config.REACT_APP_API_ENDPOINT}/people`)
         .then(res => res.json())
         .then(lineData => {
             return this.setState({
@@ -61,10 +86,7 @@ class AdoptionRoute extends Component {
             })
         })
         .then(() => {
-            console.log('lineQ', this.state.lineQueue)
-            console.log('this.state.lineQueue[0]', this.state.lineQueue[0])
             if (this.state.lineQueue[0] === this.state.clientName) {
-            console.log('time to sel')
             return this.setState({
                 clientTurnToSelect: true
             }); 
@@ -74,7 +96,7 @@ class AdoptionRoute extends Component {
     }
 
     getNextCatDog = () => {
-        fetch(`${config.API_ENDPOINT}/pets`)
+        fetch(`${config.REACT_APP_API_ENDPOINT}/pets`)
         .then(res => res.json())
         .then(petData => {
             this.setState({
@@ -86,15 +108,33 @@ class AdoptionRoute extends Component {
         .catch(e => console.log('error:',e));
     };
 
+    getCurrentCatDog = () => {
+        fetch(`${config.REACT_APP_API_ENDPOINT}/api/cat`)
+        .then(res => res.json())
+        .then(catData => {
+            this.setState({
+                currentCat: catData,
+            });
+            }
+        )
+        .catch(e => console.log('error:',e));
+
+        fetch(`${config.REACT_APP_API_ENDPOINT}/api/dog`)
+        .then(res => res.json())
+        .then(dogData => {
+            this.setState({
+                currentDog: dogData,
+            });
+            }
+        )
+        .catch(e => console.log('error:',e));
+    };
+
     adopt = () => {
-        console.log('adopting');
         if (this.state.clientInLine) {
-            console.log('this.state.lineQueue[0] on line 82', this.state.lineQueue[0])
             let clientName = this.state.clientName
             let notInList = this.state.lineQueue.filter(name => name === clientName)
-            console.log('notin list value', notInList)
             if (notInList.length === 0) {
-                console.log('notInList')
                 clearInterval(this.adoptionTimer)
                 return this.setState({
                     clientInLine: false,
@@ -102,7 +142,6 @@ class AdoptionRoute extends Component {
                 })
             }
             if (!this.state.clientTurnToSelect) {
-                console.log('into the client not in line if line 105')
                 let petChoice = Math.floor(Math.random() * 2);
                 if (petChoice === 0) {
                     petChoice = 'cat'
@@ -110,8 +149,7 @@ class AdoptionRoute extends Component {
                 else {
                     petChoice = 'dog'
                 }
-                console.log('deleting 1 pet:', petChoice);
-                fetch(`${config.API_ENDPOINT}/pets`, {
+                fetch(`${config.REACT_APP_API_ENDPOINT}/pets`, {
                     method: 'DELETE',
                     headers: {
                         'content-type': 'application/json',
@@ -119,12 +157,10 @@ class AdoptionRoute extends Component {
                     body: JSON.stringify({ petType: petChoice })
                 }).then(res => (!res.ok)
                     ? res.json().then(e => Promise.reject(e))
-                    : fetch(`${config.API_ENDPOINT}/people`, {
+                    : fetch(`${config.REACT_APP_API_ENDPOINT}/people`, {
                         method: 'DELETE'
                     })
-                ).then(() => {
-                    
-                })
+                )
                 .catch(e => console.log('error:', e));
             }
         }
@@ -133,13 +169,12 @@ class AdoptionRoute extends Component {
     };
 
     stopAdoptions = () => {
-        console.log('time to stop the line')
         clearInterval(this.adopt);
     }
 
     addClient = () => {
         let newClient = `TestClient${Math.floor(Math.random() * 88)}`
-        fetch(`${config.API_ENDPOINT}/people`, {
+        fetch(`${config.REACT_APP_API_ENDPOINT}/people`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -154,11 +189,8 @@ class AdoptionRoute extends Component {
     }
 
     onAdoptClick = (adopted, petChoice) => {
-        console.log('adopted!', adopted)
-        console.log('petChoice', petChoice)
         clearInterval(this.adoptionTimer)
-        console.log('adopted in state', this.state.adopted)
-        fetch(`${config.API_ENDPOINT}/pets`, {
+        fetch(`${config.REACT_APP_API_ENDPOINT}/pets`, {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
@@ -199,23 +231,14 @@ class AdoptionRoute extends Component {
     }
 
     render() {
-        console.log('clientTurnToSelect', this.state.clientTurnToSelect)
-        console.log('clientInLine', this.state.clientInLine)
-        console.log('clinetName', this.state.clientName)
-        console.log('line 198 lineQueue', this.state.lineQueue)
-
         if (this.state.lineQueue.length === 2 && this.state.addingClients === false) {
-            console.log('into the if')
             this.setAddingClients();
             this.clientTimer = setInterval(this.addClient, 5000)
         }
 
         if (this.state.lineQueue.length >= 5 && (this.state.adopted.length > 0 || !this.state.clientInLine)) { 
-            console.log('into that client adding time thingy')
             clearInterval(this.clientTimer)
         }
-        console.log('addingClients', this.state.addingClients)
-        console.log('this.state.adopted', this.state.adopted)
         
         return(
             <section className="adoption">
