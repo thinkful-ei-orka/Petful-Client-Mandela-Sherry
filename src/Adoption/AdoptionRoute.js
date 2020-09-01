@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import config from '../config'
+import React, { Component } from 'react';
+import config from '../config';
 
 import './AdoptionRoute.css';
 
@@ -92,7 +92,7 @@ class AdoptionRoute extends Component {
             }); 
             }
         })
-        .catch(e => console.log('error:',e));
+        .catch(e => console.log('error:', e));
     }
 
     getNextCatDog = () => {
@@ -231,6 +231,8 @@ class AdoptionRoute extends Component {
     }
 
     render() {
+
+        console.log('config.REACT_APP_API_ENDPOINT', config.REACT_APP_API_ENDPOINT)
         if (this.state.lineQueue.length === 2 && this.state.addingClients === false) {
             this.setAddingClients();
             this.clientTimer = setInterval(this.addClient, 5000)
