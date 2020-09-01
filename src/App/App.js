@@ -1,8 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 
-import LandingRoute from '../Landing/LandingRoute'
-import AdoptionRoute from '../Adoption/AdoptionRoute'
+import LandingRoute from '../Landing/LandingRoute';
+import AdoptionRoute from '../Adoption/AdoptionRoute';
 
 
 
