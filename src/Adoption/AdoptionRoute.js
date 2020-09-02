@@ -256,7 +256,7 @@ class AdoptionRoute extends Component {
                     </div>
                 }
                 {this.state.adopted.length > 0 && <p className='adopted'>Congrats! You adopted {this.state.adopted}!</p>}
-                {(this.state.clientInLine || this.state.adopted.length > 0) ?
+                {(this.state.clientInLine || this.state.adopted.length > 0) &&
                     <>
                     <div className="pet-selection">
                         <div className="cat-info container">
@@ -280,8 +280,7 @@ class AdoptionRoute extends Component {
                             <p className='pet-info'>My Story: {this.state.currentDog.story}</p>
                         </div>
                     </div>
-                </>
-            : null}
+                </>}
             </section>
         )
     }
