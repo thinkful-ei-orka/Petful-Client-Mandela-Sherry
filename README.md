@@ -21,6 +21,10 @@ Sherry McCarty
 
 Javascript, React, CSS3, HTML5, NodeJS, ExpressJS, PostgreSQL
 
+## Server
+
+The server used can be found here [https://github.com/thinkful-ei-orka/Petful-Server-Mandela-Sherry](https://github.com/thinkful-ei-orka/Petful-Server-Mandela-Sherry)
+
 ## Available Scripts
 
 In the project directory, you can run:
