@@ -1,12 +1,17 @@
 # Petful Client
 
-## Adopt A Furry Freind
+## Adopt A Furry Friend
 
-Petful is an online adoption agency for cat and dog like creatures. We believe in quality over quantity and thus choose to offer a very limited amount of 'cats' and 'dogs' to our clients. Once in line, you can see which 'cat' or 'dog' is up for adoption along with a bit about them. When it's your turn, hurry because you'll have a limited amount of time to select your new 'furry friend!'
+Petful is an application for online adoption agencies for cat and dog like creatures. Users can view who is in line to adopt and watch their options change between cats and dogs in real time. Once a user enters their name, they can choose to adopt a cat or dog when they are first in line. 
+
+At Petful, we believe in quality over quantity and thus choose to offer a very limited amount of 'cats' and 'dogs' to our clients. Once in line, you can see which 'cat' or 'dog' is up for adoption along with a bit about them. When it's your turn, hurry because you'll have a limited amount of time to select your new 'furry friend!'
 
 ## Live Site
 
 [https://petful-client-mandela-sherry.vercel.app/](https://petful-client-mandela-sherry.vercel.app/)
+
+## API:
+[https://github.com/thinkful-ei-orka/Petful-Server-Mandela-Sherry](https://github.com/thinkful-ei-orka/Petful-Server-Mandela-Sherry)   
 
 ## Team Members
 Mandela Jones<br />
